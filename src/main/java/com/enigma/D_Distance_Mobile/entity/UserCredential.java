@@ -33,6 +33,7 @@ public class UserCredential  implements UserDetails {
     private String pin;
     @Enumerated(EnumType.STRING)
     private ERole role;
+    private Boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -19,6 +19,8 @@ public class Distributor {
     @GenericGenerator(name = "uuid", strategy = "uuid")
     @GeneratedValue(generator = "uuid")
     private String id;
+    @Column(name = "comapany_id")
+    private String companyId;
     private String name;
     private String address;
     @Column(length = 16)

@@ -10,6 +10,7 @@ import com.enigma.D_Distance_Mobile.security.BCryptUtil;
 import com.enigma.D_Distance_Mobile.security.JwtUtil;
 import com.enigma.D_Distance_Mobile.service.AuthService;
 import com.enigma.D_Distance_Mobile.service.MerchantService;
+import com.enigma.D_Distance_Mobile.service.OtpService;
 import com.enigma.D_Distance_Mobile.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final ValidationUtil validationUtil;
     private final AuthenticationManager authenticationManager;
     private final MerchantService merchantService;
+    private final OtpService otpService;
 
 
 
@@ -42,8 +44,11 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail())
                     .password(bCryptUtil.hashPassword(request.getPassword()))
                     .role(ERole.ROLE_MERCHANT)
+                    .enabled(false)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
+            log.info("id user: "+userCredential.getId());
+            otpService.createOtp(userCredential);
             Merchant merchant = Merchant.builder()
                     .name(request.getName())
                     .userCredential(userCredential)
