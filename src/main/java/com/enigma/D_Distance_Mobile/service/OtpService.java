@@ -4,5 +4,6 @@ import com.enigma.D_Distance_Mobile.entity.OneTimePassword;
 import com.enigma.D_Distance_Mobile.entity.UserCredential;
 
 public interface OtpService {
-    OneTimePassword createOtp(UserCredential userCredential);
+    String createOtp(UserCredential userCredential);
+    OneTimePassword findConfirmationToken(String confirmationToken);
 }

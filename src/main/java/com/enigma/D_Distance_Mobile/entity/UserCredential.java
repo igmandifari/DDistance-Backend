@@ -33,12 +33,13 @@ public class UserCredential  implements UserDetails {
     private String pin;
     @Enumerated(EnumType.STRING)
     private ERole role;
-    private Boolean enabled;
+    private Boolean Isenabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
 
     @Override
     public String getUsername() {
@@ -63,6 +64,6 @@ public class UserCredential  implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.Isenabled;
     }
 }

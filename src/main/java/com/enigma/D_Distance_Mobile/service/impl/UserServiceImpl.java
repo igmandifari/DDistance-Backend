@@ -51,11 +51,13 @@ public class UserServiceImpl implements UserService {
         UserCredential userCredential = userCredentialRepository.findByEmail(email).
                 orElseThrow(() -> new UsernameNotFoundException("invalid credential"));
         log.info("End loadUserByUsername");
+
         return UserCredential.builder()
                 .id(userCredential.getId())
                 .email(userCredential.getUsername())
                 .password(userCredential.getPassword())
                 .role(userCredential.getRole())
+                .Isenabled(userCredential.getIsenabled())
                 .build();
     }
 }

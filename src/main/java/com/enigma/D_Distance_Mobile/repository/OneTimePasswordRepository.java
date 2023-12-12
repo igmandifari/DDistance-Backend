@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface OneTimePasswordRepository extends JpaRepository<OneTimePassword, String> {
-    Optional<OneTimePassword> findOneTimePasswordByTokenAndUser(String token, UserCredential user);
+    Optional<OneTimePassword> findOneTimePasswordByToken(String token);
     List<OneTimePassword> findByExpiryDateBefore(Date date);
+
 }

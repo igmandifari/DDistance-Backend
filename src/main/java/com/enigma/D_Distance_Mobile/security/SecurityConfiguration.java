@@ -35,24 +35,14 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http.httpBasic().and().csrf().disable()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
-//                .and().authorizeRequests()
-//                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and().addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
+
         return http.httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception-> exception.authenticationEntryPoint(authEntryPoint))
-                .authorizeHttpRequests(auth -> auth.
-                        requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
