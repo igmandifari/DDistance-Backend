@@ -33,7 +33,7 @@ public class UserCredential  implements UserDetails {
     private String pin;
     @Enumerated(EnumType.STRING)
     private ERole role;
-    private Boolean Isenabled;
+    private Boolean iSenabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,6 +64,6 @@ public class UserCredential  implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.Isenabled;
+        return this.iSenabled;
     }
 }

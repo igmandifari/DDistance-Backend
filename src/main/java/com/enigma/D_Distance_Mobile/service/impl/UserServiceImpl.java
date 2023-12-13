@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
                 .email(userCredential.getUsername())
                 .password(userCredential.getPassword())
                 .role(userCredential.getRole())
-                .Isenabled(userCredential.getIsenabled())
+                .iSenabled(userCredential.getISenabled())
                 .build();
     }
 }

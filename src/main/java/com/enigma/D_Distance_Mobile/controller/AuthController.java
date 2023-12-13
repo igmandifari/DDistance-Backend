@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/register/merchat")
+    @PostMapping("/register/merchant")
     public ResponseEntity<?> registerMerchat(@RequestBody AuthRequest request){
         RegisterResponse registerResponse = authService.registerMerchant(request);
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()

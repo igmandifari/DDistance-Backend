@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exception-> exception.authenticationEntryPoint(authEntryPoint))
                 .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/api/distributor").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()

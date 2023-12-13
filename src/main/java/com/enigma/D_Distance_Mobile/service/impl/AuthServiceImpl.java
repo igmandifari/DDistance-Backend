@@ -21,8 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -73,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail().toLowerCase())
                 .password(bCryptUtil.hashPassword(request.getPassword()))
                 .role(ERole.ROLE_ADMIN)
-                .Isenabled(true)
+                .iSenabled(true)
                 .build();
         userCredentialRepository.saveAndFlush(userCredential);
         Admin admin = Admin.builder()
@@ -94,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
                     .email(request.getEmail().toLowerCase())
                     .password(bCryptUtil.hashPassword(request.getPassword()))
                     .role(ERole.ROLE_MERCHANT)
-                    .Isenabled(false)
+                    .iSenabled(false)
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -133,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
         UserCredential userCredential = userCredentialRepository.findByEmail(confirmationToken.getUser().getEmail()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found")
         );
-        userCredential.setIsenabled(true);
+        userCredential.setISenabled(true);
         userCredentialRepository.saveAndFlush(userCredential);
         return mapToResponse(userCredential);
     }

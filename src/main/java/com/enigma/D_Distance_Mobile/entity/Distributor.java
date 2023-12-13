@@ -27,7 +27,6 @@ public class Distributor {
     private String pan;
     @Column(name = "phone_number",length = 16)
     private String phoneNumber;
-    private Long balance;
     @OneToOne
     @JoinColumn(name = "user_credential_id", unique = true)
     private UserCredential userCredential;
