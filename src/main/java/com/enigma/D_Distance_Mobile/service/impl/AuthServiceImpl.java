@@ -95,7 +95,6 @@ public class AuthServiceImpl implements AuthService {
                     .password(bCryptUtil.hashPassword(request.getPassword()))
                     .role(ERole.ROLE_MERCHANT)
                     .Isenabled(false)
-                    .pin(request.getPin())
                     .build();
             userCredentialRepository.saveAndFlush(userCredential);
 
@@ -114,6 +113,9 @@ public class AuthServiceImpl implements AuthService {
             Merchant merchant = Merchant.builder()
                     .name(request.getName())
                     .userCredential(userCredential)
+                    .address(request.getAddres())
+                    .phoneNumber(request.getPhoneNumber())
+                    .pan(request.getPan())
                     .build();
             merchantService.save(merchant);
             return mapToResponse(userCredential);
