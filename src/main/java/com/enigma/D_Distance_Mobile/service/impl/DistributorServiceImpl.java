@@ -37,7 +37,6 @@ public class DistributorServiceImpl implements DistributorService {
         try {
             log.info("Start createNew");
             validationUtil.validate(request);
-
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .role(ERole.ROLE_DISTRIBUTOR)
@@ -68,18 +67,19 @@ public class DistributorServiceImpl implements DistributorService {
     @Override
     public DistributorResponse update(UpdateDistributorRequest request) {
         try {
-            UserCredential userCredential = userCredentialRepository.findById(request.getUserCredentialId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "table not found"));
-            userCredential.setRole(request.getRole());
-            userCredential.setISenabled(request.getISenabled());
-            userCredentialRepository.saveAndFlush(userCredential);
-
+            validationUtil.validate(request);
             Distributor distributor = distributorRepository.findById(request.getId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "table not found"));
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "distributor not found"));
             distributor.setName(request.getName());
             distributor.setAddress(request.getAddress());
             distributor.setPhoneNumber(request.getPhoneNumber());
             distributorRepository.saveAndFlush(distributor);
+
+            UserCredential userCredential = userCredentialRepository.findById(distributor.getUserCredential().getId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "distributor not found"));
+            userCredential.setRole(request.getRole());
+            userCredential.setISenabled(request.getEnabled());
+            userCredentialRepository.saveAndFlush(userCredential);
 
             return mapToResponse(distributor);
         }catch (DataIntegrityViolationException e) {

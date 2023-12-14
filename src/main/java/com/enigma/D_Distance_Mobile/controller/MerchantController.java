@@ -1,6 +1,8 @@
 package com.enigma.D_Distance_Mobile.controller;
 
+import com.enigma.D_Distance_Mobile.dto.request.UpdateMerchantRequest;
 import com.enigma.D_Distance_Mobile.dto.response.CommonResponse;
+import com.enigma.D_Distance_Mobile.dto.response.MerchantResponse;
 import com.enigma.D_Distance_Mobile.dto.response.MerchantResponse;
 import com.enigma.D_Distance_Mobile.entity.Merchant;
 import com.enigma.D_Distance_Mobile.service.MerchantService;
@@ -37,6 +39,20 @@ public class MerchantController {
         MerchantResponse merchantResponse = merchantService.getById(id);
         CommonResponse<?> response = CommonResponse.builder()
                 .message("successfully get merchant")
+                .statusCode(HttpStatus.OK.value())
+                .data(merchantResponse)
+                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateMerchant(@RequestBody UpdateMerchantRequest request){
+        MerchantResponse merchantResponse = merchantService.update(request);
+        CommonResponse<MerchantResponse> response = CommonResponse.<MerchantResponse>builder()
+                .message("successfully update merchant")
                 .statusCode(HttpStatus.OK.value())
                 .data(merchantResponse)
                 .build();

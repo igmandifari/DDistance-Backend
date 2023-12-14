@@ -2,6 +2,7 @@ package com.enigma.D_Distance_Mobile.dto.request;
 
 import com.enigma.D_Distance_Mobile.constant.ERole;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateDistributorRequest {
+public class UpdateMerchantRequest {
     @NotBlank(message = "id is required")
     private String id;
     @NotBlank(message = "name is required")
