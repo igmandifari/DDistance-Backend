@@ -2,6 +2,7 @@ package com.enigma.D_Distance_Mobile.service.impl;
 
 import com.enigma.D_Distance_Mobile.constant.ERole;
 import com.enigma.D_Distance_Mobile.dto.request.NewDistributorRequest;
+import com.enigma.D_Distance_Mobile.dto.request.UpdateDistributorRequest;
 import com.enigma.D_Distance_Mobile.dto.response.DistributorResponse;
 import com.enigma.D_Distance_Mobile.entity.Distributor;
 import com.enigma.D_Distance_Mobile.entity.UserCredential;
@@ -17,6 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -61,20 +65,50 @@ public class DistributorServiceImpl implements DistributorService {
         }
     }
 
+    @Override
+    public DistributorResponse update(UpdateDistributorRequest request) {
+        try {
+            UserCredential userCredential = userCredentialRepository.findById(request.getUserCredentialId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "table not found"));
+            userCredential.setRole(request.getRole());
+            userCredential.setISenabled(request.getISenabled());
+            userCredentialRepository.saveAndFlush(userCredential);
 
+            Distributor distributor = distributorRepository.findById(request.getId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "table not found"));
+            distributor.setName(request.getName());
+            distributor.setAddress(request.getAddress());
+            distributor.setPhoneNumber(request.getPhoneNumber());
+            distributorRepository.saveAndFlush(distributor);
+
+            return mapToResponse(distributor);
+        }catch (DataIntegrityViolationException e) {
+            log.error("Error update: {}", e.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "data already exist");
+        }
+    }
 
     @Override
-    public DistributorResponse findAll() {
-        return null;
+    public List<DistributorResponse> findAll() {
+        List<Distributor> distributors = distributorRepository.findAll();
+        return distributors.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public DistributorResponse getById(String id){
+        Distributor distributor = distributorRepository
+                .findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "distributor not found"));
+        return mapToResponse(distributor);
+    }
+
     private DistributorResponse mapToResponse(Distributor distributor) {
        return DistributorResponse.builder()
                 .companyId(distributor.getCompanyId())
                 .email(distributor.getUserCredential().getEmail())
                 .pan(distributor.getPan())
                 .address(distributor.getAddress())
-               .phoneNumber(distributor.getPhoneNumber())
-               .name(distributor.getName())
+                .phoneNumber(distributor.getPhoneNumber())
+                .name(distributor.getName())
                 .build();
     }
 }

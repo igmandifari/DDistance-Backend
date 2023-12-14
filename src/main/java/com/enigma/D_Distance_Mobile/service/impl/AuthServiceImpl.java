@@ -113,6 +113,7 @@ public class AuthServiceImpl implements AuthService {
                     .userCredential(userCredential)
                     .address(request.getAddres())
                     .phoneNumber(request.getPhoneNumber())
+                    .balance(0L)
                     .pan(request.getPan())
                     .build();
             merchantService.save(merchant);
