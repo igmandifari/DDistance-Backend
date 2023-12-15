@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register/merchant")
-    public ResponseEntity<?> registerMerchat(@RequestBody AuthRequest request){
+    public ResponseEntity<?> registerMerchant(@RequestBody AuthRequest request){
         RegisterResponse registerResponse = authService.registerMerchant(request);
         CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
                 .message("successfully register new merchat")

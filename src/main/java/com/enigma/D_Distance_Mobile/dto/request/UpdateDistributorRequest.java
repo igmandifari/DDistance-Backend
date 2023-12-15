@@ -15,6 +15,7 @@ public class UpdateDistributorRequest {
     @NotBlank(message = "id is required")
     private String id;
     @NotBlank(message = "name is required")
+    private String companyId;
     private String name;
     @NotBlank(message = "address is required")
     private String address;

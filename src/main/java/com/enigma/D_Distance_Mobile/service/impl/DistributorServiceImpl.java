@@ -30,6 +30,7 @@ public class DistributorServiceImpl implements DistributorService {
     private final DistributorRepository distributorRepository;
     private final UserCredentialRepository userCredentialRepository;
     private final BCryptUtil bCryptUtil;
+    String password = "password";
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -40,7 +41,7 @@ public class DistributorServiceImpl implements DistributorService {
             UserCredential userCredential = UserCredential.builder()
                     .email(request.getEmail())
                     .role(ERole.ROLE_DISTRIBUTOR)
-                    .password(bCryptUtil.hashPassword(request.getPassword()))
+                    .password(bCryptUtil.hashPassword(password))
                     .iSenabled(request.getEnabled())
                     .build();
 
@@ -73,6 +74,7 @@ public class DistributorServiceImpl implements DistributorService {
             distributor.setName(request.getName());
             distributor.setAddress(request.getAddress());
             distributor.setPhoneNumber(request.getPhoneNumber());
+            distributor.setCompanyId(request.getCompanyId());
             distributorRepository.saveAndFlush(distributor);
 
             UserCredential userCredential = userCredentialRepository.findById(distributor.getUserCredential().getId())

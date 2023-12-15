@@ -17,7 +17,7 @@ public class NewDistributorRequest {
     private String email;
     @NotBlank(message = "password is required")
     @Size(min = 6, message = "must be greater than 6 character")
-    private String password;
+//    private String password;
     private String companyId;
     private Boolean enabled;
     private String name;
