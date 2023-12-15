@@ -1,5 +1,6 @@
 package com.enigma.D_Distance_Mobile.config;
 
+
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -9,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(info = @Info(
-        title = "Warung Makan Bahari",
+        title = "DDistance",
         version = "1.0",
         contact = @Contact(
-                name = "Enigma Camp",
-                url = "https://enigmacamp.com"
+                name = "Danamon",
+                url = "https://Danamon.com"
         )
     )
 )

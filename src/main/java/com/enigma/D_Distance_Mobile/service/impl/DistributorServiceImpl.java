@@ -3,13 +3,14 @@ package com.enigma.D_Distance_Mobile.service.impl;
 import com.enigma.D_Distance_Mobile.constant.ERole;
 import com.enigma.D_Distance_Mobile.dto.request.NewDistributorRequest;
 import com.enigma.D_Distance_Mobile.dto.request.UpdateDistributorRequest;
+import com.enigma.D_Distance_Mobile.dto.request.UpdateUserCredentialRequest;
 import com.enigma.D_Distance_Mobile.dto.response.DistributorResponse;
 import com.enigma.D_Distance_Mobile.entity.Distributor;
 import com.enigma.D_Distance_Mobile.entity.UserCredential;
 import com.enigma.D_Distance_Mobile.repository.DistributorRepository;
-import com.enigma.D_Distance_Mobile.repository.UserCredentialRepository;
 import com.enigma.D_Distance_Mobile.security.BCryptUtil;
 import com.enigma.D_Distance_Mobile.service.DistributorService;
+import com.enigma.D_Distance_Mobile.service.UserService;
 import com.enigma.D_Distance_Mobile.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 public class DistributorServiceImpl implements DistributorService {
     private final ValidationUtil validationUtil;
     private final DistributorRepository distributorRepository;
-    private final UserCredentialRepository userCredentialRepository;
+    private final UserService userService;
     private final BCryptUtil bCryptUtil;
     String password = "password";
 
@@ -46,7 +47,7 @@ public class DistributorServiceImpl implements DistributorService {
                     .build();
 
 
-            userCredentialRepository.saveAndFlush(userCredential);
+            userService.create(userCredential);
 
 
             Distributor distributor = Distributor.builder()
@@ -77,11 +78,12 @@ public class DistributorServiceImpl implements DistributorService {
             distributor.setCompanyId(request.getCompanyId());
             distributorRepository.saveAndFlush(distributor);
 
-            UserCredential userCredential = userCredentialRepository.findById(distributor.getUserCredential().getId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "distributor not found"));
-            userCredential.setRole(request.getRole());
-            userCredential.setISenabled(request.getEnabled());
-            userCredentialRepository.saveAndFlush(userCredential);
+            UpdateUserCredentialRequest updateUserCredentialRequest = UpdateUserCredentialRequest.builder()
+                    .enabled(request.getEnabled())
+                    .id(distributor.getUserCredential().getId())
+                    .role(request.getRole())
+                    .build();
+            userService.update(updateUserCredentialRequest);
 
             return mapToResponse(distributor);
         }catch (DataIntegrityViolationException e) {
@@ -105,6 +107,8 @@ public class DistributorServiceImpl implements DistributorService {
 
     private DistributorResponse mapToResponse(Distributor distributor) {
        return DistributorResponse.builder()
+               .id(distributor.getId())
+               .enabled(distributor.getUserCredential().isEnabled())
                 .companyId(distributor.getCompanyId())
                 .email(distributor.getUserCredential().getEmail())
                 .pan(distributor.getPan())

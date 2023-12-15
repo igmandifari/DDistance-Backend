@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DistributorResponse {
+    private String id;
     private String email;
     private String companyId;
     private String name;
     private String address;
+    private Boolean enabled;
     private String pan;
     private String phoneNumber;
 }

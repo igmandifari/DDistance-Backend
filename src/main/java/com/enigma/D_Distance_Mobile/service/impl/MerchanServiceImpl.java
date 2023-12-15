@@ -76,12 +76,14 @@ public class MerchanServiceImpl implements MerchantService {
 
     private MerchantResponse mapToResponse(Merchant merchant) {
         return MerchantResponse.builder()
+                .id(merchant.getId())
                 .email(merchant.getUserCredential().getEmail())
                 .pan(merchant.getPan())
                 .address(merchant.getAddress())
                 .phoneNumber(merchant.getPhoneNumber())
                 .name(merchant.getName())
                 .balance(merchant.getBalance())
+                .enabled(merchant.getUserCredential().isEnabled())
                 .build();
     }
 }

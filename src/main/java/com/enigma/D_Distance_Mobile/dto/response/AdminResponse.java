@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MerchantResponse {
-    private String id;
+public class AdminResponse {
+    private  String id;
     private String email;
-    private String name;
-    private String address;
-    private String pan;
-    private String phoneNumber;
     private Boolean enabled;
-    private Long balance;
+    private String name;
+    private String role;
+    private String address;
+    private String phoneNumber;
 }
