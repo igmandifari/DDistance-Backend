@@ -81,7 +81,6 @@ public class DistributorServiceImpl implements DistributorService {
             UpdateUserCredentialRequest updateUserCredentialRequest = UpdateUserCredentialRequest.builder()
                     .enabled(request.getEnabled())
                     .id(distributor.getUserCredential().getId())
-                    .role(request.getRole())
                     .build();
             userService.update(updateUserCredentialRequest);
 

@@ -52,7 +52,6 @@ public class MerchanServiceImpl implements MerchantService {
             merchantRepository.saveAndFlush(merchant);
             UserCredential userCredential = userCredentialRepository.findById(merchant.getUserCredential().getId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant not found"));
-            userCredential.setRole(request.getRole());
             userCredential.setISenabled(request.getEnabled());
             userCredentialRepository.saveAndFlush(userCredential);
 

@@ -91,6 +91,7 @@ public class AdminServiceImpl implements AdminService {
                 .id(admin.getUserCredential().getId())
                 .role(request.getRole())
                 .build();
+        userService.update(updateUserCredentialRequest);
 
         adminRepository.saveAndFlush(admin);
 //        admin

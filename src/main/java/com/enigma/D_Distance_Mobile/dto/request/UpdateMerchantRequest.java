@@ -21,6 +21,5 @@ public class UpdateMerchantRequest {
     private String address;
     @NotBlank(message = "phoneNumber is required")
     private String phoneNumber;
-    private ERole role;
     private Boolean enabled;
 }

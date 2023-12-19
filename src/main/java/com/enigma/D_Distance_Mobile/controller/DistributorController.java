@@ -37,6 +37,7 @@ public class DistributorController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','MERCHANT')")
     public ResponseEntity<?> getAllDistributor(){
         List<DistributorResponse> distributorResponses = distributorService.findAll();
         CommonResponse<?> response = CommonResponse.builder()

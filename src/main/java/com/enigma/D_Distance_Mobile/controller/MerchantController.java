@@ -38,7 +38,7 @@ public class MerchantController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','DISTRIBUTOR')")
     public  ResponseEntity<?> getMerchantById(@PathVariable String id){
         MerchantResponse merchantResponse = merchantService.getById(id);
         CommonResponse<?> response = CommonResponse.builder()
