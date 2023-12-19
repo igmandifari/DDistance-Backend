@@ -97,7 +97,8 @@ public class AuthServiceImpl implements AuthService {
             userCredentialRepository.saveAndFlush(userCredential);
 
 //            log.info("id user: "+userCredential.getId());
-            String otp = otpService.createOtp(userCredential);
+            Integer time = 24*60;
+            String otp = otpService.createOtp(userCredential,time);
 
 
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -127,8 +128,8 @@ public class AuthServiceImpl implements AuthService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public RegisterResponse confirmEmail(String token) {
-
         OneTimePassword confirmationToken = otpService.findConfirmationToken(token);
+        otpService.delete(confirmationToken.getId());
         UserCredential userCredential = userCredentialRepository.findByEmail(confirmationToken.getUser().getEmail()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Email not found")
         );

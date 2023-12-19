@@ -67,6 +67,13 @@ public class MerchanServiceImpl implements MerchantService {
         return merchants.stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
+    @Override
+    public Merchant findByUser(UserCredential userCredential) {
+        return merchantRepository.findMerchantByUserCredential(userCredential).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"merchant not found")
+        );
+    }
+
     public MerchantResponse getById(String id){
         Merchant merchant = merchantRepository
                 .findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant not found"));

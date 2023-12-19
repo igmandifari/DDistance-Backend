@@ -38,13 +38,14 @@ public class OtpServiceImpl implements OtpService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String createOtp(UserCredential userCredential) {
+    public String createOtp(UserCredential userCredential, Integer time) {
         try {
             String otp = oneTimePasswordHelper.createRandomOneTimePassword();
+            log.info(otp);
             OneTimePassword oneTimePassword = OneTimePassword.builder()
                     .user(userCredential)
                     .token(oneTimePasswordHelper.generateHashOtp(otp))
-                    .expiryDate(calculateExpiryDate(60*24))
+                    .expiryDate(calculateExpiryDate(time))
                     .build();
              repository.saveAndFlush(oneTimePassword);
             return otp;
@@ -61,6 +62,15 @@ public class OtpServiceImpl implements OtpService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "One Time Password not found")
         );
     }
+
+    @Override
+    public void delete(String id) {
+        OneTimePassword oneTimePassword = repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "One Time Password not found")
+        );
+        repository.delete(oneTimePassword);
+    }
+
     private Date calculateExpiryDate(int expiryTimeInMinutes) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date(cal.getTime().getTime()));

@@ -26,7 +26,7 @@ public class OneTimePassword {
     @Column
     private String token;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private  UserCredential user;
 
