@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
                     .password(bCryptUtil.hashPassword(password))
                     .role(ERole.ROLE_ADMIN)
                     .email(request.getEmail())
-                    .iSenabled(true)
+                    .iSenabled(request.getEnabled())
                     .build();
             userService.create(userCredential);
 
