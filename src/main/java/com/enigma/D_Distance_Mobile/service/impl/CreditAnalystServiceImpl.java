@@ -107,6 +107,7 @@ public class CreditAnalystServiceImpl implements CreditAnalystService {
 
         return CreditAnalystResponse.builder()
                 .id(creditAnalyst.getId())
+                .role(creditAnalyst.getUserCredential().getRole().name())
                 .name(creditAnalyst.getName())
                 .phoneNumber(creditAnalyst.getPhoneNumber())
                 .address(creditAnalyst.getAddress())

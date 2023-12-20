@@ -16,4 +16,5 @@ public class CreditAnalystResponse {
     private String address;
     private Boolean enabled;
     private String phoneNumber;
+    private String role;
 }
