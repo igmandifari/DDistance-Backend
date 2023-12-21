@@ -23,11 +23,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
-public class InsuranceServiceImpl implements InsuranceRequestService {
+public class InsuranceServiceImpl implements InsuranceService {
     private final EmailService emailService;
     private final OtpService otpService;
     private final InsuranceRepository insuranceRepository;
@@ -68,7 +70,7 @@ public class InsuranceServiceImpl implements InsuranceRequestService {
                 .siu(siu)
                 .ktp(ktp)
                 .agunan(agunan)
-                .statusSurvey(EInstallemnt.ROLE_PENDING)
+                .statusSurvey(EInstallemnt.DALAM_PROSES)
                 .waktuPengajuan(LocalDateTime.now())
                 .build();
         insuranceRepository.saveAndFlush(insurance);
@@ -92,6 +94,19 @@ public class InsuranceServiceImpl implements InsuranceRequestService {
     public Resource getAgunan(String id) {
         Insurance insurance = getInsurance(id);
         return fileService.urlImage(insurance.getAgunan());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<InsuranceResponse> getAll() {
+        List<Insurance> insurances = insuranceRepository.findAll();
+        return insurances.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public InsuranceResponse findById(String id) {
+        Insurance insurance = getInsurance(id);
+        return mapToResponse(insurance);
     }
 
     private Insurance getInsurance(String id) {

@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,8 +32,7 @@ public class Merchant {
     @JoinColumn(name = "user_credential_id", unique = true)
     private UserCredential userCredential;
 
-    @ManyToOne(fetch =  FetchType.EAGER)
-    @JoinColumn(name = "invoice_id")
+    @OneToMany(fetch =  FetchType.EAGER)
     @JsonBackReference
-    private Invoice invoice;
+    private List<Invoice> invoice;
 }
